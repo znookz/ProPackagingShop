@@ -1,0 +1,32 @@
+---
+import { getDict, pagePath, type Lang, type PageKey } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = getDict(lang);
+const items: PageKey[] = ['home', 'history', 'service', 'product', 'contact'];
+---
+<footer class="hairline-top pb-24 md:pb-0">
+  <div class="wrap flex flex-wrap justify-between gap-x-10 gap-y-7 py-8 text-[0.9375rem]">
+    <div class="flex min-w-0 flex-[1_1_16rem] flex-col gap-1.5">
+      <span class="display text-2xl leading-tight">{t.brand}</span>
+      <span class="muted max-w-[19rem]">{t.tagline}</span>
+    </div>
+    <div class="flex flex-[0_1_10rem] flex-col gap-1">
+      <span class="font-semibold">{t.footer.menu}</span>
+      {items.map((key) => <a href={pagePath(lang, key)} class="hover:text-accent-700">{t.nav[key]}</a>)}
+    </div>
+    <div class="flex min-w-0 flex-[1_1_15rem] flex-col gap-1">
+      <span class="font-semibold">{t.footer.contact}</span>
+      <span>{t.footer.address}</span>
+      <span>{t.footer.hours}</span>
+      <span>{t.footer.phone}</span>
+      <span>{t.footer.line}</span>
+    </div>
+  </div>
+  <div class="hairline-top">
+    <div class="wrap py-3.5 text-[0.8125rem] text-neutral-700">© {new Date().getFullYear()} {t.brand}. {t.footer.rights}</div>
+  </div>
+</footer>

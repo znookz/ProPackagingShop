@@ -1,0 +1,250 @@
+{
+  "brand": "Foldwork",
+  "tagline": "Packaging print house: boxes, tags, labels and calendars",
+  "nav": {
+    "label": "Main menu",
+    "home": "Home",
+    "history": "History",
+    "service": "Service",
+    "product": "Product",
+    "contact": "Contact",
+    "open": "Open menu",
+    "close": "Close menu"
+  },
+  "langLabel": "Language",
+  "cta": {
+    "quote": "Get a quote",
+    "viewAll": "View all products",
+    "askPrice": "Ask for a price",
+    "view3d": "View in 3D",
+    "call": "Call",
+    "line": "LINE"
+  },
+  "footer": {
+    "menu": "Menu",
+    "contact": "Contact",
+    "address": "[Shop address]",
+    "hours": "[Opening hours]",
+    "phone": "Tel [0X-XXX-XXXX]",
+    "line": "LINE [@line-id]",
+    "rights": "All rights reserved",
+    "quick": "Quick contact"
+  },
+  "cta_band": {
+    "title": "Tell us what goes in the box",
+    "body": "Send your brief on LINE or give us a call. We reply with a price and a sample box structure.",
+    "contactLine": "LINE [@line-id] · Tel [0X-XXX-XXXX]"
+  },
+  "meta": {
+    "home": {
+      "title": "Foldwork — Packaging print house for boxes, tags and calendars",
+      "description": "Foldwork designs, prints, die-cuts and assembles boxes, tags, labels and calendars, all under one roof."
+    },
+    "history": {
+      "title": "History — Foldwork",
+      "description": "The story and milestones of Foldwork, a packaging print house."
+    },
+    "service": {
+      "title": "Service — Foldwork",
+      "description": "Printing for boxes, tags, labels and calendars, plus dieline design and surface finishing."
+    },
+    "product": {
+      "title": "Product — Foldwork",
+      "description": "Tuck boxes, rigid boxes, corrugated shippers, hang tags, stickers, labels and calendars, with a 3D viewer."
+    },
+    "contact": {
+      "title": "Contact — Foldwork",
+      "description": "Request a quote for printed boxes, tags and calendars. Reach Foldwork by phone, LINE or email."
+    }
+  },
+  "home": {
+    "kicker": "Print and packaging manufacturer",
+    "title": ["The right package,", "printed to stand out"],
+    "sub": "Design, print, die-cut and assemble your boxes in one place, from dieline to your customer's door.",
+    "figAlt": "Box dieline: solid lines are cuts, dashed blue lines are folds",
+    "figLeft": "Dieline → folded box",
+    "figRight": "100 × 100 × 100 mm",
+    "trust": [
+      { "value": "[XX] yrs", "label": "In the print business" },
+      { "value": "[X,XXX]+", "label": "Jobs delivered" },
+      { "value": "[XXX] pcs", "label": "Minimum order" },
+      { "value": "[X] days", "label": "To send you a proof" }
+    ],
+    "service": {
+      "kicker": "02 / Service",
+      "title": "Every step of a box, under one roof",
+      "sub": "One team handles everything from box structure to delivery, with fewer hand-offs between factories."
+    },
+    "finishLabel": "Finishing",
+    "product": { "kicker": "03 / Product", "title": "Featured products" },
+    "process": {
+      "kicker": "04 / Process",
+      "title": "From brief to your door in 4 steps"
+    }
+  },
+  "services": [
+    { "title": "Packaging boxes", "body": "Die-cut, rigid and corrugated boxes in the size and material you need." },
+    { "title": "Tags and labels", "body": "Hang tags, stickers and labels in many shapes." },
+    { "title": "Calendars", "body": "Desk and wall calendars carrying your brand artwork." },
+    { "title": "Design and dielines", "body": "We design the box structure and artwork, and make a white sample before the real run." }
+  ],
+  "finishes": ["Hot foil", "Emboss / deboss", "Spot UV", "Matte lamination"],
+  "process": [
+    { "title": "Send your brief", "body": "Tell us the product type, size and quantity." },
+    { "title": "Dieline and proof", "body": "We draw the box structure and send a proof before printing." },
+    { "title": "Print and finish", "body": "Printing, die-cutting, foil, lamination and box forming." },
+    { "title": "Delivery", "body": "Quality check, then delivery to your location." }
+  ],
+  "history": {
+    "kicker": "01 / History",
+    "title": "From a small print shop to a full-service box maker",
+    "intro": "[Tell the Foldwork story in 2–3 sentences: who founded it, how it started, and what it does today.]",
+    "photoMain": "[Factory / team photo]",
+    "timelineKicker": "Timeline",
+    "timelineTitle": "Our journey",
+    "timeline": [
+      { "year": "[Year]", "title": "The print shop opens", "body": "[Origin and early days of the shop]" },
+      { "year": "[Year]", "title": "Growing capacity", "body": "[Machines or production lines added]" },
+      { "year": "[Year]", "title": "Key work and clients", "body": "[Clients or projects you are proud of]" },
+      { "year": "Today", "title": "Everything in one place", "body": "Design, print, form and assemble boxes with a single team. [Add detail]" }
+    ],
+    "valuesKicker": "Values",
+    "valuesTitle": "What we stand for",
+    "values": [
+      { "title": "Craft", "body": "[Describe the care put into the work]" },
+      { "title": "Precision", "body": "[Describe colour and size checks before delivery]" },
+      { "title": "On time", "body": "[Describe how deadlines are met]" }
+    ],
+    "galleryKicker": "Workshop",
+    "galleryTitle": "Inside the print shop",
+    "gallery": ["[Press photo]", "[Die-cutter photo]", "[Foil stamping photo]", "[Box assembly photo]", "[Team photo]", "[Delivery photo]"],
+    "cta": { "title": "Let's make your next box together", "body": "Send us your brief and we reply with a price and a sample box structure." }
+  },
+  "service": {
+    "kicker": "02 / Service",
+    "title": "Every step of a box, under one roof",
+    "sub": "One team handles everything from box structure to delivery, with fewer hand-offs between factories.",
+    "blocks": [
+      {
+        "title": "Packaging boxes",
+        "body": "Die-cut, rigid and corrugated boxes in the size and material you need.",
+        "items": ["Tuck-end die-cut boxes", "Rigid lid-and-base boxes", "Corrugated shipping boxes"],
+        "photo": "[Box work photo]",
+        "link": "See box products"
+      },
+      {
+        "title": "Tags and labels",
+        "body": "Hang tags, stickers and labels in many shapes.",
+        "items": ["Hang tags, punched with string", "Die-cut stickers in any shape", "Paper labels on rolls or sheets"],
+        "photo": "[Tag work photo]",
+        "link": "See tags and labels"
+      },
+      {
+        "title": "Calendars",
+        "body": "Desk and wall calendars carrying your brand artwork.",
+        "items": ["Desk calendars", "Wall calendars in several sizes", "Artwork in your brand style"],
+        "photo": "[Calendar work photo]",
+        "link": "See calendars"
+      },
+      {
+        "title": "Design and dielines",
+        "body": "We design the box structure and artwork, and make a white sample before the real run.",
+        "items": ["Measure your product and design the structure", "Dieline file with a white sample", "Artwork check before printing"],
+        "photo": "[Dieline / white sample photo]"
+      },
+      {
+        "title": "Surface finishing",
+        "body": "Hot foil, emboss, spot UV and matte lamination for a surface that stands out.",
+        "photo": "[Finishing work photo]",
+        "tags": true
+      }
+    ],
+    "specs": {
+      "kicker": "Specs",
+      "title": "Materials and print specifications",
+      "scrollHint": "Scroll the table sideways to see more",
+      "head": ["Material", "Best for", "Max size", "Min. order"],
+      "rows": [
+        ["Kraft paper", "Natural-look boxes and bags", "[XXX x XXX mm]", "[XXX] pcs"],
+        ["White card (SBS)", "Cosmetic and food boxes", "[XXX x XXX mm]", "[XXX] pcs"],
+        ["Art card", "Premium boxes and hang tags", "[XXX x XXX mm]", "[XXX] pcs"],
+        ["Corrugated board", "Shipping boxes", "[XXX x XXX mm]", "[XXX] pcs"],
+        ["Sticker stock", "Labels and stickers", "[XXX x XXX mm]", "[XXX] pcs"]
+      ]
+    },
+    "faq": {
+      "kicker": "FAQ",
+      "title": "Frequently asked questions",
+      "items": [
+        { "q": "What is the minimum order?", "a": "It depends on the job and starts at [XXX] pcs. Send your brief and we will quote it." },
+        { "q": "How do I send my artwork?", "a": "Send files via LINE, email or a download link [state accepted file types]. No artwork yet? We offer design." },
+        { "q": "How long does production take?", "a": "About [X-X] working days after you approve the proof, depending on quantity and finishing." },
+        { "q": "Can I see a sample before printing?", "a": "Yes. We make a dieline with a white sample and send a proof for your approval before the real run." }
+      ]
+    }
+  },
+  "product": {
+    "kicker": "03 / Product",
+    "title": "Products",
+    "sub": "Products with a 360° badge open a 3D model you can turn all the way round.",
+    "filterLabel": "Filter products",
+    "filters": { "all": "All", "box": "Boxes", "tag": "Tags and labels", "calendar": "Calendars" },
+    "showing": "Showing {n} items",
+    "photo": "[Product photo]",
+    "badge": "360°",
+    "ctaMore": { "kicker": "Can't find what you need?", "body": "We make boxes, tags and calendars to your size. Send us your brief." }
+  },
+  "viewer": {
+    "label": "3D product viewer",
+    "hint": "360° drag to rotate",
+    "close": "Close viewer",
+    "rotateLeft": "Rotate left",
+    "rotateRight": "Rotate right",
+    "reset": "Reset",
+    "views": "Views",
+    "front": "Front",
+    "side": "Side",
+    "back": "Back",
+    "top": "Top",
+    "ar": "View in your space (AR)",
+    "askQuote": "Get a quote for this product",
+    "noWebgl": "This device cannot show 3D models. See the product photo instead.",
+    "specs": { "size": "Size", "material": "Material", "finish": "Finishing", "moq": "Min. order", "lead": "Lead time" }
+  },
+  "contact": {
+    "kicker": "05 / Contact",
+    "title": "Contact us",
+    "sub": "Tell us the product type, size and quantity. We reply with a price.",
+    "cells": [
+      { "kicker": "Phone", "value": "[0X-XXX-XXXX]", "note": "Tap to call on mobile" },
+      { "kicker": "LINE", "value": "[@line-id]", "note": "Send files and talk details right away" },
+      { "kicker": "Email", "value": "[Shop email]", "note": "For large files and quotes" },
+      { "kicker": "Hours", "value": "[Opening hours]", "note": "[Short address]" }
+    ],
+    "form": {
+      "kicker": "Quote",
+      "title": "Request a quote",
+      "name": "Name / company",
+      "contact": "Phone or LINE ID",
+      "type": "Product type",
+      "types": { "box": "Box", "tag": "Tags and labels", "calendar": "Calendar", "other": "Other" },
+      "qty": "Quantity",
+      "qtyPh": "e.g. 500 pcs",
+      "size": "Size (W x L x H mm)",
+      "note": "Job details",
+      "notePh": "Material, finishing, deadline, etc.",
+      "file": "Artwork link (optional)",
+      "filePh": "Google Drive, Dropbox link, etc.",
+      "submit": "Send quote request",
+      "sending": "Sending…",
+      "orLine": "Or send it on LINE [@line-id] right away",
+      "ok": "Sent. Our team will get back to you soon.",
+      "fail": "Could not send. Please try again or contact us by LINE or phone."
+    },
+    "map": "[Google Maps embed]",
+    "mapTitle": "Print shop location",
+    "mapNote": "[Full address] · [Map link]",
+    "howTitle": "How to send your artwork",
+    "how": ["Send files via LINE, email or a download link", "Tell us the size and quantity", "Wait for the dieline and proof to approve before printing"]
+  }
+}

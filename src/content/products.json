@@ -1,0 +1,276 @@
+[
+  {
+    "id": "tuck-box",
+    "category": "box",
+    "kind": "Box",
+    "order": 1,
+    "name": {
+      "th": "กล่องไดคัทฝาเสียบ",
+      "en": "Tuck-end die-cut box"
+    },
+    "summary": {
+      "th": "ขนาดและวัสดุตามสั่ง",
+      "en": "Made to your size and material"
+    },
+    "model": "/models/box-tuck.glb",
+    "specs": {
+      "size": "[W x L x H mm]",
+      "material": {
+        "th": "[ประเภทกระดาษ / แกรม]",
+        "en": "[Paper type / gsm]"
+      },
+      "finish": {
+        "th": "ปั๊มฟอยล์ ปั๊มนูน เคลือบ UV เคลือบด้าน",
+        "en": "Hot foil, emboss, spot UV, matte lamination"
+      },
+      "moq": "[XXX]",
+      "lead": {
+        "th": "[X-X] วันทำการ หลังอนุมัติตัวอย่างลาย",
+        "en": "[X-X] working days after proof approval"
+      }
+    }
+  },
+  {
+    "id": "rigid-box",
+    "category": "box",
+    "kind": "Box",
+    "order": 2,
+    "name": {
+      "th": "กล่องแข็งฝาครอบ",
+      "en": "Rigid lid-and-base box"
+    },
+    "summary": {
+      "th": "เหมาะกับของขวัญและสินค้าพรีเมียม",
+      "en": "For gifts and premium products"
+    },
+    "model": "/models/box-rigid.glb",
+    "specs": {
+      "size": "[W x L x H mm]",
+      "material": {
+        "th": "[ประเภทกระดาษ / แกรม]",
+        "en": "[Paper type / gsm]"
+      },
+      "finish": {
+        "th": "ปั๊มฟอยล์ ปั๊มนูน เคลือบ UV เคลือบด้าน",
+        "en": "Hot foil, emboss, spot UV, matte lamination"
+      },
+      "moq": "[XXX]",
+      "lead": {
+        "th": "[X-X] วันทำการ หลังอนุมัติตัวอย่างลาย",
+        "en": "[X-X] working days after proof approval"
+      }
+    }
+  },
+  {
+    "id": "shipper-box",
+    "category": "box",
+    "kind": "Box",
+    "order": 3,
+    "name": {
+      "th": "กล่องลูกฟูกส่งพัสดุ",
+      "en": "Corrugated shipping box"
+    },
+    "summary": {
+      "th": "แข็งแรง พิมพ์โลโก้ได้",
+      "en": "Sturdy, with your logo printed"
+    },
+    "model": "/models/box-shipper.glb",
+    "specs": {
+      "size": "[W x L x H mm]",
+      "material": {
+        "th": "[ประเภทกระดาษ / แกรม]",
+        "en": "[Paper type / gsm]"
+      },
+      "finish": {
+        "th": "ปั๊มฟอยล์ ปั๊มนูน เคลือบ UV เคลือบด้าน",
+        "en": "Hot foil, emboss, spot UV, matte lamination"
+      },
+      "moq": "[XXX]",
+      "lead": {
+        "th": "[X-X] วันทำการ หลังอนุมัติตัวอย่างลาย",
+        "en": "[X-X] working days after proof approval"
+      }
+    }
+  },
+  {
+    "id": "handle-box",
+    "category": "box",
+    "kind": "Box",
+    "order": 4,
+    "name": {
+      "th": "กล่องหูหิ้ว",
+      "en": "Carry-handle box"
+    },
+    "summary": {
+      "th": "สำหรับของฝากและชุดสินค้า",
+      "en": "For gifts and gift sets"
+    },
+    "model": "/models/box-handle.glb",
+    "specs": {
+      "size": "[W x L x H mm]",
+      "material": {
+        "th": "[ประเภทกระดาษ / แกรม]",
+        "en": "[Paper type / gsm]"
+      },
+      "finish": {
+        "th": "ปั๊มฟอยล์ ปั๊มนูน เคลือบ UV เคลือบด้าน",
+        "en": "Hot foil, emboss, spot UV, matte lamination"
+      },
+      "moq": "[XXX]",
+      "lead": {
+        "th": "[X-X] วันทำการ หลังอนุมัติตัวอย่างลาย",
+        "en": "[X-X] working days after proof approval"
+      }
+    }
+  },
+  {
+    "id": "hang-tag",
+    "category": "tag",
+    "kind": "Tag",
+    "order": 5,
+    "name": {
+      "th": "ป้ายแขวนสินค้า",
+      "en": "Hang tag"
+    },
+    "summary": {
+      "th": "หลายรูปทรง เจาะรูและร้อยเชือกให้",
+      "en": "Many shapes, punched and strung"
+    },
+    "specs": {
+      "size": "[W x L x H mm]",
+      "material": {
+        "th": "[ประเภทกระดาษ / แกรม]",
+        "en": "[Paper type / gsm]"
+      },
+      "finish": {
+        "th": "ปั๊มฟอยล์ ปั๊มนูน เคลือบ UV เคลือบด้าน",
+        "en": "Hot foil, emboss, spot UV, matte lamination"
+      },
+      "moq": "[XXX]",
+      "lead": {
+        "th": "[X-X] วันทำการ หลังอนุมัติตัวอย่างลาย",
+        "en": "[X-X] working days after proof approval"
+      }
+    }
+  },
+  {
+    "id": "sticker",
+    "category": "tag",
+    "kind": "Label",
+    "order": 6,
+    "name": {
+      "th": "สติกเกอร์ไดคัท",
+      "en": "Die-cut sticker"
+    },
+    "summary": {
+      "th": "ตัดตามรูปทรงที่ต้องการ",
+      "en": "Cut to any shape"
+    },
+    "specs": {
+      "size": "[W x L x H mm]",
+      "material": {
+        "th": "[ประเภทกระดาษ / แกรม]",
+        "en": "[Paper type / gsm]"
+      },
+      "finish": {
+        "th": "ปั๊มฟอยล์ ปั๊มนูน เคลือบ UV เคลือบด้าน",
+        "en": "Hot foil, emboss, spot UV, matte lamination"
+      },
+      "moq": "[XXX]",
+      "lead": {
+        "th": "[X-X] วันทำการ หลังอนุมัติตัวอย่างลาย",
+        "en": "[X-X] working days after proof approval"
+      }
+    }
+  },
+  {
+    "id": "label",
+    "category": "tag",
+    "kind": "Label",
+    "order": 7,
+    "name": {
+      "th": "ฉลากกระดาษ",
+      "en": "Paper label"
+    },
+    "summary": {
+      "th": "ม้วนหรือแผ่น ตามเครื่องติดฉลากของคุณ",
+      "en": "Rolls or sheets to suit your labeller"
+    },
+    "specs": {
+      "size": "[W x L x H mm]",
+      "material": {
+        "th": "[ประเภทกระดาษ / แกรม]",
+        "en": "[Paper type / gsm]"
+      },
+      "finish": {
+        "th": "ปั๊มฟอยล์ ปั๊มนูน เคลือบ UV เคลือบด้าน",
+        "en": "Hot foil, emboss, spot UV, matte lamination"
+      },
+      "moq": "[XXX]",
+      "lead": {
+        "th": "[X-X] วันทำการ หลังอนุมัติตัวอย่างลาย",
+        "en": "[X-X] working days after proof approval"
+      }
+    }
+  },
+  {
+    "id": "desk-calendar",
+    "category": "calendar",
+    "kind": "Calendar",
+    "order": 8,
+    "name": {
+      "th": "ปฏิทินตั้งโต๊ะ",
+      "en": "Desk calendar"
+    },
+    "summary": {
+      "th": "ออกแบบลายตามแบรนด์ของคุณ",
+      "en": "Artwork in your brand style"
+    },
+    "specs": {
+      "size": "[W x L x H mm]",
+      "material": {
+        "th": "[ประเภทกระดาษ / แกรม]",
+        "en": "[Paper type / gsm]"
+      },
+      "finish": {
+        "th": "ปั๊มฟอยล์ ปั๊มนูน เคลือบ UV เคลือบด้าน",
+        "en": "Hot foil, emboss, spot UV, matte lamination"
+      },
+      "moq": "[XXX]",
+      "lead": {
+        "th": "[X-X] วันทำการ หลังอนุมัติตัวอย่างลาย",
+        "en": "[X-X] working days after proof approval"
+      }
+    }
+  },
+  {
+    "id": "wall-calendar",
+    "category": "calendar",
+    "kind": "Calendar",
+    "order": 9,
+    "name": {
+      "th": "ปฏิทินแขวนผนัง",
+      "en": "Wall calendar"
+    },
+    "summary": {
+      "th": "หลายขนาด เลือกจำนวนแผ่นได้",
+      "en": "Several sizes and page counts"
+    },
+    "specs": {
+      "size": "[W x L x H mm]",
+      "material": {
+        "th": "[ประเภทกระดาษ / แกรม]",
+        "en": "[Paper type / gsm]"
+      },
+      "finish": {
+        "th": "ปั๊มฟอยล์ ปั๊มนูน เคลือบ UV เคลือบด้าน",
+        "en": "Hot foil, emboss, spot UV, matte lamination"
+      },
+      "moq": "[XXX]",
+      "lead": {
+        "th": "[X-X] วันทำการ หลังอนุมัติตัวอย่างลาย",
+        "en": "[X-X] working days after proof approval"
+      }
+    }
+  }
+]

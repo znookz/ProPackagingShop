@@ -1,0 +1,67 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import ProductCard from '../components/ProductCard.astro';
+import ProductViewer from '../components/ProductViewer.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { getDict, fmt, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = getDict(lang);
+const p = t.product;
+const products = (await getCollection('products')).sort((a, b) => a.data.order - b.data.order);
+const filters = (['all', 'box', 'tag', 'calendar'] as const).map((id) => ({ id, label: p.filters[id] }));
+---
+<Base lang={lang} page="product">
+  <section class="wrap flex flex-wrap items-end justify-between gap-4 pb-2 pt-8 md:pb-6 md:pt-12">
+    <div class="flex flex-col gap-1">
+      <span class="kicker">{p.kicker}</span>
+      <h1 class="display text-4xl leading-snug md:text-[3.25rem]">{p.title}</h1>
+    </div>
+    <p class="muted m-0 max-w-[28em] text-[0.9375rem] md:text-base">{p.sub}</p>
+  </section>
+
+  <div class="hairline-top hairline-bottom sticky top-0 z-10 mt-3 bg-bg md:static md:mt-0 md:border-0">
+    <div class="wrap flex flex-col gap-1 py-2 md:flex-row md:items-center md:justify-between md:gap-4 md:py-5">
+      <div role="group" aria-label={p.filterLabel} class="flex gap-2 overflow-x-auto md:flex-wrap md:overflow-visible" id="filters">
+        {filters.map((f) => (
+          <button type="button" class="chip" data-filter={f.id} aria-pressed={f.id === 'all' ? 'true' : 'false'}>{f.label}</button>
+        ))}
+      </div>
+      <span class="muted text-[0.8125rem] md:text-[0.9375rem]" id="count" aria-live="polite" data-template={p.showing}>
+        {fmt(p.showing, { n: products.length })}
+      </span>
+    </div>
+  </div>
+
+  <section class="wrap pb-14 pt-5 md:pb-20">
+    <div class="grid grid-cols-2 gap-3.5 md:grid-cols-3 md:gap-6" id="grid">
+      {products.map((product) => <ProductCard lang={lang} product={product} />)}
+    </div>
+  </section>
+
+  <CtaBand lang={lang} title={p.ctaMore.kicker} body={p.ctaMore.body} />
+  <ProductViewer lang={lang} />
+</Base>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+  const cards = document.querySelectorAll<HTMLElement>('#grid [data-category]');
+  const count = document.querySelector<HTMLElement>('#count')!;
+  buttons.forEach((btn) =>
+    btn.addEventListener('click', () => {
+      const cat = btn.dataset.filter!;
+      let shown = 0;
+      cards.forEach((card) => {
+        const match = cat === 'all' || card.dataset.category === cat;
+        card.hidden = !match;
+        if (match) shown++;
+      });
+      buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+      count.textContent = (count.dataset.template ?? '').replace('{n}', String(shown));
+    }),
+  );
+</script>

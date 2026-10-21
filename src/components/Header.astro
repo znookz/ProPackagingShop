@@ -1,0 +1,69 @@
+---
+import { getDict, pagePath, type Lang, type PageKey } from '../i18n/utils';
+import Corners from './Corners.astro';
+import Logo from './Logo.astro';
+
+interface Props {
+  lang: Lang;
+  current: PageKey;
+}
+const { lang, current } = Astro.props;
+const t = getDict(lang);
+const other: Lang = lang === 'th' ? 'en' : 'th';
+const items: PageKey[] = ['home', 'history', 'service', 'product', 'contact'];
+---
+<header class="hairline-bottom bg-bg">
+  <div class="wrap flex flex-wrap items-center gap-x-7 gap-y-1 py-3">
+    <a href={pagePath(lang, 'home')} class="mr-auto flex items-center gap-2.5" aria-label={t.brand}>
+      <Logo />
+      <span class="display text-[1.625rem] leading-tight">{t.brand}</span>
+    </a>
+
+    <nav id="site-nav" aria-label={t.nav.label} class="order-last hidden w-full flex-col pb-2 md:order-none md:flex md:w-auto md:flex-row md:gap-6 md:pb-0">
+      {items.map((key) => (
+        <a
+          href={pagePath(lang, key)}
+          aria-current={key === current ? 'page' : undefined}
+          class:list={[
+            'flex min-h-11 items-center border-b border-line md:min-h-0 md:border-b-2 md:border-transparent',
+            key === current && 'font-semibold text-accent-700 md:border-accent',
+          ]}
+        >{t.nav[key]}</a>
+      ))}
+    </nav>
+
+    <div class="seg" role="group" aria-label={t.langLabel}>
+      <span class="seg-opt seg-on" aria-current="true" lang={lang}>{lang.toUpperCase()}</span>
+      <a href={pagePath(other, current)} class="seg-opt" hreflang={other} lang={other}>{other.toUpperCase()}</a>
+    </div>
+
+    <a href={pagePath(lang, 'contact')} class="btn btn-primary btn-sm blueprint hidden md:inline-flex">
+      {t.cta.quote}<Corners />
+    </a>
+
+    <button
+      type="button"
+      id="nav-toggle"
+      class="btn w-11 !px-0 md:hidden"
+      aria-expanded="false"
+      aria-controls="site-nav"
+      aria-label={t.nav.open}
+      data-open-label={t.nav.open}
+      data-close-label={t.nav.close}
+    >
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="#1d1f20" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M3 6H19M3 11H19M3 16H19"></path></svg>
+    </button>
+  </div>
+</header>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('#nav-toggle');
+  const nav = document.querySelector<HTMLElement>('#site-nav');
+  toggle?.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!open));
+    toggle.setAttribute('aria-label', (open ? toggle.dataset.openLabel : toggle.dataset.closeLabel) ?? '');
+    nav?.classList.toggle('hidden', open);
+    nav?.classList.toggle('flex', !open);
+  });
+</script>

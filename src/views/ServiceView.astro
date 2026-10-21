@@ -1,0 +1,93 @@
+---
+import Base from '../layouts/Base.astro';
+import Corners from '../components/Corners.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { getDict, pagePath, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = getDict(lang);
+const s = t.service;
+---
+<Base lang={lang} page="service">
+  <!-- TITLE -->
+  <section class="wrap flex flex-wrap items-end justify-between gap-4 pb-4 pt-8 md:pb-6 md:pt-14">
+    <div class="flex flex-col gap-1.5">
+      <span class="kicker">{s.kicker}</span>
+      <h1 class="display text-balance text-[2.125rem] leading-[1.4] md:text-[3.5rem] md:leading-[1.3]">{s.title}</h1>
+    </div>
+    <p class="muted m-0 max-w-[28em] text-[0.9375rem] md:text-[1.0625rem]">{s.sub}</p>
+  </section>
+
+  <!-- BLOCKS -->
+  <section class="wrap flex flex-col gap-9 pb-8 pt-4 md:gap-14 md:pb-12 md:pt-6">
+    {s.blocks.map((b, i) => (
+      <div class:list={['flex flex-col gap-3.5 md:flex-row md:items-center md:gap-12', i % 2 === 1 && 'md:flex-row-reverse']}>
+        <div class="blueprint min-w-0 p-2 md:flex-1 md:p-3.5">
+          <Corners />
+          <div class="ph aspect-[4/3]"><span>{b.photo}</span></div>
+        </div>
+        <div class="flex min-w-0 flex-col gap-1 md:flex-1 md:gap-2.5">
+          <span class="display text-xl text-accent-700 md:text-[1.375rem]">{String(i + 1).padStart(2, '0')}</span>
+          <h2 class="display text-[1.625rem] leading-snug md:text-4xl">{b.title}</h2>
+          <p class="muted m-0 text-[0.9375rem] md:text-[1.0625rem]">{b.body}</p>
+          {'items' in b && b.items && (
+            <ul class="muted m-0 mt-1 list-disc pl-5 text-[0.9375rem] md:text-[1.0625rem]">
+              {b.items.map((item) => <li>{item}</li>)}
+            </ul>
+          )}
+          {'tags' in b && b.tags && (
+            <div class="mt-1 flex flex-wrap gap-2 md:gap-2.5">
+              {t.finishes.map((f) => <span class="tag tag-neutral">{f}</span>)}
+            </div>
+          )}
+          {'link' in b && b.link && (
+            <a href={pagePath(lang, 'product')} class="btn btn-sm mt-2 hidden self-start md:inline-flex">{b.link}</a>
+          )}
+        </div>
+      </div>
+    ))}
+  </section>
+
+  <!-- SPECS -->
+  <section class="wrap flex flex-col gap-4 py-8 md:gap-6 md:py-12">
+    <div class="flex flex-col gap-1">
+      <span class="kicker">{s.specs.kicker}</span>
+      <h2 class="display text-[1.75rem] leading-snug md:text-[2.5rem]">{s.specs.title}</h2>
+    </div>
+    <div class="blueprint overflow-x-auto" tabindex="0" role="region" aria-label={s.specs.title}>
+      <Corners />
+      <table class="table min-w-[37.5rem] md:min-w-0">
+        <thead>
+          <tr>{s.specs.head.map((h) => <th scope="col">{h}</th>)}</tr>
+        </thead>
+        <tbody>
+          {s.specs.rows.map((row) => (
+            <tr>{row.map((cell, i) => (i === 0 ? <th scope="row" class="!font-normal !text-ink">{cell}</th> : <td>{cell}</td>))}</tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <span class="muted text-[0.8125rem] md:hidden">{s.specs.scrollHint}</span>
+  </section>
+
+  <!-- FAQ -->
+  <section class="wrap flex flex-wrap gap-x-16 gap-y-6 py-8 md:py-12">
+    <div class="flex min-w-0 flex-[1_1_16rem] flex-col gap-1">
+      <span class="kicker">{s.faq.kicker}</span>
+      <h2 class="display text-[1.75rem] leading-snug md:text-[2.5rem]">{s.faq.title}</h2>
+    </div>
+    <div class="min-w-0 flex-[2_1_28rem] border-t border-line">
+      {s.faq.items.map((f, i) => (
+        <details class="faq" open={i === 0}>
+          <summary>{f.q}</summary>
+          <div>{f.a}</div>
+        </details>
+      ))}
+    </div>
+  </section>
+
+  <CtaBand lang={lang} />
+</Base>

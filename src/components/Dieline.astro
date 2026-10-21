@@ -1,0 +1,13 @@
+---
+interface Props {
+  alt: string;
+}
+const { alt } = Astro.props;
+---
+<svg viewBox="0 0 560 400" role="img" aria-label={alt} class="block h-auto w-full">
+  <path d="M40 140 H160 V60 H400 V140 H520 V300 H400 V380 H160 V300 H40 Z" fill="none" stroke="#1d1f20" stroke-width="1.6" stroke-linejoin="round"></path>
+  <path d="M280 60 V140 M280 300 V380" fill="none" stroke="#1d1f20" stroke-width="1.6"></path>
+  <path d="M160 140 V300 M280 140 V300 M400 140 V300 M160 140 H400 M160 300 H400" fill="none" stroke="#5980a6" stroke-width="1.4" stroke-dasharray="6 4"></path>
+  <text x="220" y="228" text-anchor="middle" font-family="Barlow Condensed, sans-serif" font-weight="700" font-size="24" fill="#1d1f20">Foldwork</text>
+  <rect x="198" y="242" width="44" height="5" fill="#5980a6"></rect>
+</svg>

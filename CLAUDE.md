@@ -16,8 +16,8 @@ Brand name: **Foldwork** (chosen by the owner). Still confirm domain and tradema
 ## Stack (decided)
 - **Astro 5** (static output, built-in i18n routing, ships ~0 JS by default). Not Angular/React — the site is content, not an app. Use a React/Preact island only if a real interactive widget is needed (e.g. product filter).
 - **Tailwind CSS v4** with design tokens in `@theme` (colors, fonts, spacing). Plain CSS (custom properties, `clamp()`, container queries, CSS grid) for anything Tailwind makes awkward.
-- Content: Astro Content Collections (`src/content/products/*.md`, `services/*.md`) with `th` and `en` fields side by side.
-- UI strings: `src/i18n/th.json`, `src/i18n/en.json` + a tiny `t(lang, key)` helper.
+- Content: Astro content collection `products` loaded from `src/content/products.json` (`th` and `en` fields side by side, schema in `src/content.config.ts`). Services, history, FAQ and other page copy live in the i18n JSON.
+- UI strings: `src/i18n/th.json`, `src/i18n/en.json`, read with `getDict(lang)` from `src/i18n/utils.ts`. Keep both files in the same shape.
 - Images: Astro `<Image>` → AVIF/WebP, `srcset`, explicit width/height (no layout shift). Source images in `src/assets/`.
 - **3D product viewer:** tap a product → opens a viewer where the box rotates 360° (drag/pinch/auto-rotate).
   - Phase 1: Google `<model-viewer>` web component loading `.glb` files from `public/models/`. Script and model load **only when the user opens the viewer** (never on page load). Gives orbit controls, a poster image, and AR "view in your space" on phones for free.
@@ -26,37 +26,43 @@ Brand name: **Foldwork** (chosen by the owner). Still confirm domain and tradema
   - Rules: each `.glb` < 2MB (Draco/Meshopt compressed, textures ≤ 1024px WebP/KTX2); always provide a static poster image and a no-WebGL fallback; keyboard-operable controls and `alt`; honour `prefers-reduced-motion` (no auto-rotate); keep the model files out of the critical path so Lighthouse mobile stays green.
 - Contact: click-to-call, LINE OA link, email, Google Maps embed (lazy). Optional form → Cloudflare Pages Function + Turnstile (no DB; forwards to email).
 
-## Planned structure
+## Structure (built)
 ```
 src/
-  pages/            index.astro, history, service, product, contact  (+ en/ mirror)
-  layouts/          Base.astro (head, hreflang, header, footer)
-  components/       Header, LangSwitch, Hero, ProductCard, ServiceCard, Timeline, ContactBlock
-  content/          products/, services/
+  pages/            index, history, service, product, contact  (Thai) + en/ mirror; each is a one-line wrapper
+  views/            HomeView, HistoryView, ServiceView, ProductView, ContactView (shared by both languages)
+  layouts/          Base.astro (head, canonical, hreflang, header, footer, mobile quick bar)
+  components/       Header, Footer, QuickBar, CtaBand, Corners, Dieline, Logo, ProductCard, ProductViewer
+  content/          products.json
   i18n/             th.json, en.json, utils.ts
-  styles/           global.css (tokens, base, utilities)
-  assets/           images
-public/             favicon, robots.txt, _headers, _redirects
-  models/           product .glb files + poster images
+  styles/           global.css (Tailwind @theme tokens + component classes)
+  config.ts         phone / LINE / email (empty until the shop supplies them)
+functions/api/      contact.js (Cloudflare Pages Function: Turnstile + Resend)
+scripts/            make-box-glb.mjs (placeholder 3D boxes)
+public/             favicon, robots.txt, _headers, models/*.glb
 ```
+Adding a page: add the key to `PageKey` and `slugs` in `src/i18n/utils.ts`, copy in both i18n files (`nav`, `meta`, page block), a `*View.astro`, and two route wrappers.
 
 ## Conventions
 - Thai text: set `lang="th"` / `lang="en"` on `<html>`; use `line-height` ≥ 1.6 for Thai (tone marks clip at tight values); never use `letter-spacing` on Thai.
 - Visual language: "blueprint" — see `docs/design-brief.md` (grey ground `#f2f2f3`, accent `#5980a6` / text-accent `#416180`, radius 0, 1px hairline borders, corner registration marks).
 - Fonts: **Barlow Condensed** (headings, Latin) + **Barlow** (body) with **Noto Sans Thai** as the Thai face; self-host, `font-display: swap`, subset to Thai + Latin.
-- Language switch keeps the user on the equivalent page (`/product` ↔ `/en/product`), stores choice in `localStorage`, never auto-redirects crawlers.
+- Language switch is a plain link to the equivalent page (`/product/` ↔ `/en/product/`). No auto-redirects, so crawlers and shared links always land where expected.
 - Every page: unique `<title>`, meta description, `hreflang` alternates, OpenGraph image, `LocalBusiness` JSON-LD on Contact.
 - Accessibility: AA contrast, visible focus, 44×44px touch targets, `alt` text in both languages, `prefers-reduced-motion` respected.
 - Performance budget: LCP < 2.5s on mid-range phone over 4G; < 100KB JS; hero image < 150KB.
 - Keep dependencies minimal. No CSS-in-JS, no UI kit.
 
-## Commands (once scaffolded)
+## Commands
 ```
-npm create astro@latest      # one-time scaffold
-npm run dev                  # local dev
+npm install
+npm run dev                  # local dev, http://localhost:4321
 npm run build                # static output in dist/
+npm run check                # astro check (types)
+npm run make:models          # regenerate placeholder .glb boxes
 npx wrangler pages deploy dist   # or connect repo in Cloudflare Pages: build `npm run build`, output `dist`
 ```
+Before pushing UI changes: `npm run check && npm run build`, then look at TH and EN pages at 390px and 1280px wide.
 
 ## Workflow
 1. Design in Claude Design using `docs/design-brief.md`.

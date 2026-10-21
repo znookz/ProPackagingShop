@@ -1,0 +1,22 @@
+---
+import { getDict, pagePath, type Lang } from '../i18n/utils';
+import { telHref, lineHref } from '../config';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = getDict(lang);
+const contactPath = pagePath(lang, 'contact');
+---
+<nav aria-label={t.footer.quick} class="hairline-top fixed inset-x-0 bottom-0 z-20 grid grid-cols-3 gap-2 bg-bg p-2.5 md:hidden">
+  <a href={telHref(contactPath)} class="btn btn-sm">
+    <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="#1d1f20" stroke-width="1.6" aria-hidden="true"><path d="M4 3H8L9.5 7L7.5 8.5C8.5 10.5 9.5 11.5 11.5 12.5L13 10.5L17 12V16C10 17 3 10 4 3Z"></path></svg>
+    <span>{t.cta.call}</span>
+  </a>
+  <a href={lineHref(contactPath)} class="btn btn-sm">
+    <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="#1d1f20" stroke-width="1.6" aria-hidden="true"><path d="M3 4H17V13H9L5 17V13H3Z"></path></svg>
+    <span>{t.cta.line}</span>
+  </a>
+  <a href={contactPath + '#quote'} class="btn btn-primary btn-sm">{t.cta.askPrice}</a>
+</nav>

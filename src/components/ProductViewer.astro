@@ -1,0 +1,179 @@
+---
+import { getDict, type Lang } from '../i18n/utils';
+import Corners from './Corners.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = getDict(lang);
+const v = t.viewer;
+---
+<dialog id="viewer" class="viewer blueprint" aria-label={v.label}>
+  <Corners />
+  <div class="flex max-h-[calc(100dvh-2rem)] flex-col overflow-y-auto md:flex-row md:overflow-hidden">
+    <!-- STAGE -->
+    <div class="relative flex flex-none flex-col border-b border-line bg-surface md:w-[56%] md:border-b-0 md:border-r">
+      <span class="tag absolute left-4 top-4 z-10 md:left-6 md:top-5">{v.hint}</span>
+      <div id="viewer-stage" class="relative h-[17.5rem] md:h-[27rem]">
+        <p id="viewer-nowebgl" class="muted absolute inset-0 m-0 hidden place-items-center p-8 text-center" hidden>{v.noWebgl}</p>
+      </div>
+      <div class="hairline-top flex flex-col gap-3 px-4 py-4 md:px-6">
+        <div class="flex flex-wrap items-center gap-2">
+          <button type="button" class="btn w-11 !px-0" data-viewer-act="left" aria-label={v.rotateLeft}>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#1d1f20" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4L6 10L12 16"></path></svg>
+          </button>
+          <button type="button" class="btn w-11 !px-0" data-viewer-act="right" aria-label={v.rotateRight}>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#1d1f20" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4L14 10L8 16"></path></svg>
+          </button>
+          <button type="button" class="btn btn-sm" data-viewer-act="reset">{v.reset}</button>
+        </div>
+        <div class="flex flex-wrap items-center gap-2" role="group" aria-label={v.views}>
+          <span class="mr-1 text-sm font-semibold">{v.views}</span>
+          <button type="button" class="chip" data-viewer-view="0deg 75deg auto">{v.front}</button>
+          <button type="button" class="chip" data-viewer-view="90deg 75deg auto">{v.side}</button>
+          <button type="button" class="chip" data-viewer-view="180deg 75deg auto">{v.back}</button>
+          <button type="button" class="chip" data-viewer-view="0deg 5deg auto">{v.top}</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- INFO -->
+    <div class="relative flex min-w-0 flex-1 flex-col gap-4 px-4 pb-5 pt-5 md:overflow-y-auto md:px-10 md:pb-8 md:pt-9">
+      <button type="button" class="btn absolute right-3 top-3 w-11 !px-0" data-viewer-act="close" aria-label={v.close}>
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#1d1f20" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 4L14 14M14 4L4 14"></path></svg>
+      </button>
+      <div class="flex flex-col gap-1 pr-14">
+        <span class="kicker !text-[0.8125rem]" id="viewer-kind"></span>
+        <h2 class="display text-[1.625rem] leading-snug md:text-4xl" id="viewer-title"></h2>
+      </div>
+      <p class="muted m-0" id="viewer-summary"></p>
+      <dl class="specs">
+        <dt>{v.specs.size}</dt><dd id="v-size"></dd>
+        <dt>{v.specs.material}</dt><dd id="v-material"></dd>
+        <dt>{v.specs.finish}</dt><dd id="v-finish"></dd>
+        <dt>{v.specs.moq}</dt><dd id="v-moq"></dd>
+        <dt>{v.specs.lead}</dt><dd id="v-lead"></dd>
+      </dl>
+      <div class="mt-auto flex flex-col gap-3 pt-2 max-md:sticky max-md:bottom-0 max-md:-mx-4 max-md:border-t max-md:border-line max-md:bg-bg max-md:px-4 max-md:py-3">
+        <a id="viewer-quote" href="#" class="btn btn-primary btn-block blueprint">{v.askQuote}<Corners /></a>
+        <button type="button" id="viewer-ar" class="btn btn-block" hidden>{v.ar}</button>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  // The 3D library and the .glb are fetched only when someone opens the viewer.
+  type ViewerData = {
+    name: string; kind: string; summary: string; model: string; poster: string; quoteHref: string;
+    specs: { size: string; material: string; finish: string; moq: string; lead: string };
+  };
+  type MV = HTMLElement & {
+    cameraOrbit: string;
+    autoRotate: boolean;
+    canActivateAR: boolean;
+    activateAR: () => Promise<void>;
+    getCameraOrbit: () => { theta: number; phi: number; radius: number };
+    jumpCameraToGoal: () => void;
+  };
+
+  const DEFAULT_ORBIT = '-32deg 70deg auto';
+  const dialog = document.querySelector<HTMLDialogElement>('#viewer')!;
+  const stage = document.querySelector<HTMLElement>('#viewer-stage')!;
+  const noWebgl = document.querySelector<HTMLElement>('#viewer-nowebgl')!;
+  const arBtn = document.querySelector<HTMLButtonElement>('#viewer-ar')!;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let viewer: MV | null = null;
+  let libReady: Promise<unknown> | null = null;
+
+  const $ = (id: string) => document.getElementById(id)!;
+
+  function hasWebGL(): boolean {
+    try {
+      const c = document.createElement('canvas');
+      return !!(c.getContext('webgl2') || c.getContext('webgl'));
+    } catch {
+      return false;
+    }
+  }
+
+  async function open(data: ViewerData) {
+    $('viewer-kind').textContent = data.kind;
+    $('viewer-title').textContent = data.name;
+    $('viewer-summary').textContent = data.summary;
+    $('v-size').textContent = data.specs.size;
+    $('v-material').textContent = data.specs.material;
+    $('v-finish').textContent = data.specs.finish;
+    $('v-moq').textContent = data.specs.moq;
+    $('v-lead').textContent = data.specs.lead;
+    ($('viewer-quote') as HTMLAnchorElement).href = data.quoteHref;
+    arBtn.hidden = true;
+    dialog.showModal();
+
+    if (!hasWebGL()) {
+      noWebgl.hidden = false;
+      noWebgl.classList.add('grid');
+      return;
+    }
+    libReady ??= import('@google/model-viewer');
+    await libReady;
+
+    if (!viewer) {
+      viewer = document.createElement('model-viewer') as MV;
+      viewer.setAttribute('camera-controls', '');
+      viewer.setAttribute('touch-action', 'pan-y');
+      viewer.setAttribute('shadow-intensity', '1');
+      viewer.setAttribute('shadow-softness', '1');
+      viewer.setAttribute('exposure', '1.05');
+      viewer.setAttribute('interaction-prompt', 'none');
+      viewer.setAttribute('ar', '');
+      viewer.setAttribute('ar-modes', 'webxr scene-viewer quick-look');
+      viewer.setAttribute('camera-orbit', DEFAULT_ORBIT);
+      viewer.addEventListener('camera-change', (e) => {
+        if ((e as CustomEvent).detail?.source === 'user-interaction') viewer!.autoRotate = false;
+      });
+      viewer.addEventListener('load', () => {
+        arBtn.hidden = !viewer!.canActivateAR;
+      });
+      stage.append(viewer);
+    }
+    viewer.setAttribute('alt', data.name);
+    if (data.poster) viewer.setAttribute('poster', data.poster);
+    viewer.setAttribute('src', data.model);
+    viewer.cameraOrbit = DEFAULT_ORBIT;
+    viewer.autoRotate = !reduceMotion;
+    if (!reduceMotion) viewer.setAttribute('auto-rotate', '');
+  }
+
+  function turn(deg: number) {
+    if (!viewer) return;
+    viewer.autoRotate = false;
+    const o = viewer.getCameraOrbit();
+    viewer.cameraOrbit = `${(o.theta * 180) / Math.PI + deg}deg ${(o.phi * 180) / Math.PI}deg ${o.radius}m`;
+  }
+
+  document.addEventListener('click', (e) => {
+    const target = e.target as Element;
+    const opener = target.closest<HTMLElement>('[data-open-viewer]');
+    if (opener?.dataset.product) {
+      open(JSON.parse(opener.dataset.product) as ViewerData);
+      return;
+    }
+    if (target === dialog) dialog.close(); // click on the backdrop
+    const act = target.closest<HTMLElement>('[data-viewer-act]')?.dataset.viewerAct;
+    if (act === 'close') dialog.close();
+    if (act === 'left') turn(-30);
+    if (act === 'right') turn(30);
+    if (act === 'reset' && viewer) {
+      viewer.autoRotate = false;
+      viewer.cameraOrbit = DEFAULT_ORBIT;
+    }
+    const view = target.closest<HTMLElement>('[data-viewer-view]')?.dataset.viewerView;
+    if (view && viewer) {
+      viewer.autoRotate = false;
+      viewer.cameraOrbit = view;
+    }
+    if (target.closest('#viewer-ar')) viewer?.activateAR();
+  });
+</script>

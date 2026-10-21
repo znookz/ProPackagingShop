@@ -1,0 +1,386 @@
+@import "tailwindcss";
+
+/* Self-hosted fonts (latin subsets for Barlow; Noto Sans Thai covers Thai + its own latin) */
+@import "@fontsource/barlow/latin-400.css";
+@import "@fontsource/barlow/latin-500.css";
+@import "@fontsource/barlow/latin-600.css";
+@import "@fontsource/barlow-condensed/latin-600.css";
+@import "@fontsource/barlow-condensed/latin-700.css";
+@import "@fontsource-variable/noto-sans-thai/wght.css";
+
+/*
+ * Foldwork "blueprint" look: cool grey ground, steel-blue accent, square hairline frames,
+ * registration marks at the corners, dashed fold lines. See docs/design-brief.md.
+ */
+@theme {
+  --color-bg: #f2f2f3;
+  --color-surface: #e9e9ea;
+  --color-ink: #1d1f20;
+  --color-line: color-mix(in srgb, #1d1f20 16%, transparent);
+
+  --color-neutral-100: #f5f5f8;
+  --color-neutral-200: #e7e7ea;
+  --color-neutral-300: #d4d4d7;
+  --color-neutral-400: #b7b7ba;
+  --color-neutral-500: #98989b;
+  --color-neutral-700: #5d5d60;
+  --color-neutral-800: #424244;
+  --color-neutral-900: #2b2b2d;
+
+  --color-accent: #5980a6;
+  --color-accent-600: #597ea3;
+  --color-accent-700: #416180;
+  --color-accent-800: #2c455d;
+
+  --font-display: "Barlow Condensed", "Noto Sans Thai Variable", system-ui, sans-serif;
+  --font-sans: "Barlow", "Noto Sans Thai Variable", system-ui, sans-serif;
+
+  --breakpoint-xs: 30rem;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background: var(--color-bg);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.7; /* Thai needs >= 1.6 so tone marks do not clip */
+    text-rendering: optimizeLegibility;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  :focus {
+    outline: none;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-accent-700);
+    outline-offset: 2px;
+  }
+  ::selection {
+    background: color-mix(in srgb, var(--color-accent) 30%, transparent);
+  }
+  h1, h2, h3, h4 {
+    margin: 0;
+  }
+  [hidden] {
+    display: none !important;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+@layer components {
+  .wrap {
+    width: 100%;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: clamp(1rem, 4vw, 2rem);
+  }
+
+  /* type */
+  .display {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: 0; /* never letter-space Thai */
+  }
+  .kicker {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 0.9375rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-accent-700);
+  }
+  .muted {
+    color: var(--color-neutral-800);
+  }
+
+  /* frame with registration marks */
+  .blueprint {
+    position: relative;
+    border: 1px solid var(--color-line);
+  }
+  .blueprint > .corner {
+    position: absolute;
+    width: 11px;
+    height: 11px;
+    color: color-mix(in srgb, var(--color-ink) 55%, transparent);
+    pointer-events: none;
+  }
+  .blueprint > .corner::before,
+  .blueprint > .corner::after {
+    content: "";
+    position: absolute;
+    background: currentColor;
+  }
+  .blueprint > .corner::before { left: 5px; top: 0; width: 1px; height: 100%; }
+  .blueprint > .corner::after { top: 5px; left: 0; width: 100%; height: 1px; }
+  .blueprint > .corner.tl { top: -6px; left: -6px; }
+  .blueprint > .corner.tr { top: -6px; right: -6px; }
+  .blueprint > .corner.bl { bottom: -6px; left: -6px; }
+  .blueprint > .corner.br { bottom: -6px; right: -6px; }
+
+  /* cells divided by 1px hairlines */
+  .cells {
+    display: grid;
+    gap: 1px;
+    background: var(--color-line);
+  }
+  .cells > * {
+    background: var(--color-bg);
+  }
+
+  /* buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 44px;
+    padding: 0 1.5rem;
+    cursor: pointer;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.0625rem;
+    line-height: 1.2;
+    color: var(--color-ink);
+    background: transparent;
+    border: 1px solid var(--color-line);
+    border-radius: 0;
+    transition: background-color 0.15s;
+  }
+  .btn:hover {
+    background: color-mix(in srgb, var(--color-ink) 7%, transparent);
+  }
+  .btn-primary {
+    background: var(--color-accent-700);
+    border-color: var(--color-accent-700);
+    color: var(--color-bg);
+  }
+  .btn-primary:hover {
+    background: var(--color-accent-800);
+  }
+  .btn-sm {
+    padding: 0 1rem;
+    font-size: 1rem;
+  }
+  .btn-block {
+    width: 100%;
+  }
+
+  /* tags, chips, segmented switch */
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.75rem;
+    letter-spacing: 0.02em;
+    padding: 2px 10px;
+    border: 1px solid var(--color-accent-700);
+    color: var(--color-accent-700);
+    background: var(--color-bg);
+  }
+  .tag-neutral {
+    border-color: var(--color-line);
+    color: var(--color-ink);
+    background: transparent;
+    font-size: 0.875rem;
+    padding: 3px 14px;
+  }
+  .chip {
+    min-height: 44px;
+    padding: 0 1.125rem;
+    cursor: pointer;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--color-ink);
+    background: transparent;
+    border: 1px solid var(--color-line);
+    border-radius: 0;
+    white-space: nowrap;
+    flex: 0 0 auto;
+  }
+  .chip:hover {
+    background: color-mix(in srgb, var(--color-ink) 7%, transparent);
+  }
+  .chip[aria-pressed="true"] {
+    background: var(--color-accent-700);
+    border-color: var(--color-accent-700);
+    color: var(--color-bg);
+  }
+  .seg {
+    display: inline-flex;
+    border: 1px solid var(--color-line);
+    font-size: 0.8125rem;
+  }
+  .seg-opt {
+    display: inline-flex;
+    align-items: center;
+    min-height: 32px;
+    padding: 0 0.75rem;
+  }
+  .seg-opt + .seg-opt {
+    border-left: 1px solid var(--color-line);
+  }
+  .seg-on {
+    background: var(--color-accent-700);
+    color: var(--color-bg);
+  }
+
+  /* cards and image placeholders */
+  .card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--color-line);
+    background: transparent;
+  }
+  .ph {
+    display: grid;
+    place-items: center;
+    position: relative;
+    border: 1.5px dashed var(--color-accent-700);
+    background: rgba(89, 128, 166, 0.12);
+    color: var(--color-accent-800);
+    font-size: 0.8125rem;
+    text-align: center;
+  }
+  .ph-tag {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+
+  /* spec list */
+  .specs {
+    margin: 0;
+    display: grid;
+    grid-template-columns: 7.5rem minmax(0, 1fr);
+    border-top: 1px solid var(--color-line);
+    font-size: 0.9375rem;
+  }
+  .specs dt,
+  .specs dd {
+    margin: 0;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--color-line);
+  }
+  .specs dt {
+    font-weight: 600;
+  }
+
+  /* forms */
+  .field > label {
+    display: block;
+    font-size: 0.875rem;
+    margin-bottom: 6px;
+    color: var(--color-neutral-800);
+  }
+  .input {
+    width: 100%;
+    min-height: 44px;
+    padding: 8px 12px;
+    font: inherit;
+    font-size: 1rem;
+    color: var(--color-ink);
+    caret-color: var(--color-accent-700);
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 0;
+  }
+  .input:hover {
+    border-color: color-mix(in srgb, var(--color-ink) 45%, transparent);
+  }
+  .input:focus-visible {
+    border-color: var(--color-accent-700);
+    outline-offset: 0;
+  }
+  textarea.input {
+    min-height: 110px;
+    resize: vertical;
+  }
+
+  /* table */
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9375rem;
+  }
+  .table th {
+    text-align: left;
+    font-weight: 600;
+    color: var(--color-neutral-700);
+  }
+  .table th,
+  .table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--color-line);
+    vertical-align: top;
+  }
+  .table tbody tr:hover {
+    background: color-mix(in srgb, var(--color-ink) 4%, transparent);
+  }
+
+  /* faq (native <details>) */
+  .faq {
+    border-bottom: 1px solid var(--color-line);
+  }
+  .faq summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    min-height: 56px;
+    padding: 10px 0;
+    cursor: pointer;
+    font-size: 1.125rem;
+    font-weight: 600;
+    list-style: none;
+  }
+  .faq summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq summary::after {
+    content: "+";
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    color: var(--color-accent-700);
+  }
+  .faq[open] summary::after {
+    content: "−";
+  }
+  .faq > div {
+    padding: 0 0 1rem;
+    color: var(--color-neutral-800);
+  }
+
+  .hairline-top { border-top: 1px solid var(--color-line); }
+  .hairline-bottom { border-bottom: 1px solid var(--color-line); }
+
+  /* 3D viewer dialog */
+  dialog.viewer {
+    padding: 0;
+    border: 1px solid var(--color-line);
+    background: var(--color-bg);
+    color: var(--color-ink);
+    width: min(1080px, calc(100vw - 2rem));
+    max-height: calc(100dvh - 2rem);
+    margin: auto;
+    overflow: visible;
+  }
+  dialog.viewer::backdrop {
+    background: color-mix(in srgb, var(--color-neutral-900) 50%, transparent);
+  }
+  model-viewer {
+    width: 100%;
+    height: 100%;
+    --poster-color: transparent;
+    background: transparent;
+  }
+}

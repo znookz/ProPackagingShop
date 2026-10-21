@@ -1,0 +1,63 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getDict, pagePath, pick, type Lang } from '../i18n/utils';
+import Corners from './Corners.astro';
+
+interface Props {
+  lang: Lang;
+  product: CollectionEntry<'products'>;
+}
+const { lang, product } = Astro.props;
+const t = getDict(lang);
+const p = product.data;
+const name = pick(p.name, lang);
+const summary = pick(p.summary, lang);
+const quoteHref = `${pagePath(lang, 'contact')}?product=${encodeURIComponent(product.id)}#quote`;
+
+// Everything the 3D viewer needs, serialized once so the viewer script stays tiny.
+const viewerData = p.model
+  ? JSON.stringify({
+      name,
+      kind: p.kind,
+      summary,
+      model: p.model,
+      poster: p.poster ?? '',
+      quoteHref,
+      specs: {
+        size: p.specs.size,
+        material: pick(p.specs.material, lang),
+        finish: pick(p.specs.finish, lang),
+        moq: p.specs.moq + (lang === 'th' ? ' ชิ้น' : ' pcs'),
+        lead: pick(p.specs.lead, lang),
+      },
+    })
+  : null;
+---
+<article class="card blueprint relative transition-transform duration-200 hover:-translate-y-1 motion-reduce:transition-none motion-reduce:hover:translate-y-0" data-category={p.category}>
+  <Corners />
+  <div class="hairline-bottom p-2 md:p-3.5">
+    <div class="ph aspect-square md:aspect-[4/3]">
+      <span class="px-1">{t.product.photo}</span>
+      {viewerData && <span class="tag ph-tag !right-1.5 !top-1.5 md:!right-2.5 md:!top-2.5">{t.product.badge}</span>}
+    </div>
+  </div>
+  <div class="flex flex-1 flex-col gap-1 px-3 pb-3.5 pt-2.5 md:px-[1.125rem] md:pb-5 md:pt-4">
+    <span class="kicker hidden !text-[0.8125rem] md:block">{p.kind}</span>
+    <h3 class="display text-[1.0625rem] leading-normal md:text-[1.3125rem]">
+      {viewerData ? (
+        <button
+          type="button"
+          class="text-left after:absolute after:inset-0 after:content-['']"
+          data-open-viewer
+          data-product={viewerData}
+        >{name}</button>
+      ) : (
+        <a href={quoteHref} class="after:absolute after:inset-0 after:content-['']">{name}</a>
+      )}
+    </h3>
+    <p class="muted m-0 hidden text-[0.9375rem] md:block">{summary}</p>
+    <span class="mt-0.5 text-sm font-semibold text-accent-700 md:mt-1.5 md:text-[0.9375rem]" aria-hidden="true">
+      {viewerData ? `${t.cta.view3d} →` : `${t.cta.askPrice} →`}
+    </span>
+  </div>
+</article>

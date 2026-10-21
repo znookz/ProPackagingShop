@@ -1,0 +1,32 @@
+---
+import { getDict, pagePath, type Lang } from '../i18n/utils';
+import Corners from './Corners.astro';
+
+interface Props {
+  lang: Lang;
+  title?: string;
+  body?: string;
+  showContactLine?: boolean;
+}
+const { lang, showContactLine = false } = Astro.props;
+const t = getDict(lang);
+const title = Astro.props.title ?? t.cta_band.title;
+const body = Astro.props.body ?? t.cta_band.body;
+---
+<section class="wrap pb-16 pt-8 md:pb-20">
+  <div class="blueprint flex flex-wrap items-center justify-between gap-7 px-5 py-8 md:px-10 md:py-14">
+    <Corners />
+    <div class="flex min-w-0 flex-[1_1_22rem] flex-col gap-2.5">
+      <h2 class="display text-[1.75rem] leading-snug md:text-[2.75rem]">{title}</h2>
+      <p class="muted max-w-[30em]">{body}</p>
+    </div>
+    <div class="flex w-full flex-col items-start gap-3.5 md:w-auto">
+      <a href={pagePath(lang, 'contact') + '#quote'} class="btn btn-primary blueprint w-full md:w-auto">
+        {t.cta.quote}
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+        <Corners />
+      </a>
+      {showContactLine && <span class="text-[0.9375rem] text-neutral-700">{t.cta_band.contactLine}</span>}
+    </div>
+  </div>
+</section>

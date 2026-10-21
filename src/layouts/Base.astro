@@ -1,0 +1,52 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import QuickBar from '../components/QuickBar.astro';
+import { getDict, pagePath, type Lang, type PageKey } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+  page: PageKey;
+}
+const { lang, page } = Astro.props;
+const t = getDict(lang);
+const meta = t.meta[page];
+const site = Astro.site ?? new URL('https://foldwork.example');
+const canonical = new URL(pagePath(lang, page), site).href;
+const alternates = (['th', 'en'] as Lang[]).map((l) => ({ lang: l, href: new URL(pagePath(l, page), site).href }));
+const xDefault = alternates.find((a) => a.lang === 'th')!.href;
+---
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{meta.title}</title>
+    <meta name="description" content={meta.description} />
+    <link rel="canonical" href={canonical} />
+    {alternates.map((a) => <link rel="alternate" hreflang={a.lang} href={a.href} />)}
+    <link rel="alternate" hreflang="x-default" href={xDefault} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={t.brand} />
+    <meta property="og:title" content={meta.title} />
+    <meta property="og:description" content={meta.description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={lang === 'th' ? 'th_TH' : 'en_US'} />
+    <meta property="og:locale:alternate" content={lang === 'th' ? 'en_US' : 'th_TH'} />
+    <meta name="theme-color" content="#f2f2f3" />
+    <slot name="head" />
+  </head>
+  <body>
+    <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-50 focus:bg-bg focus:p-3">
+      {lang === 'th' ? 'ข้ามไปยังเนื้อหา' : 'Skip to content'}
+    </a>
+    <Header lang={lang} current={page} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer lang={lang} />
+    <QuickBar lang={lang} />
+  </body>
+</html>

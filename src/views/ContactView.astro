@@ -1,0 +1,151 @@
+---
+import Base from '../layouts/Base.astro';
+import Corners from '../components/Corners.astro';
+import { getDict, type Lang } from '../i18n/utils';
+import { telHref, lineHref, mailHref } from '../config';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = getDict(lang);
+const c = t.contact;
+const f = c.form;
+const turnstileKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
+const cellHrefs = [telHref('#quote'), lineHref('#quote'), mailHref('#quote'), undefined];
+const types = Object.entries(f.types) as [string, string][];
+---
+<Base lang={lang} page="contact">
+  <!-- TITLE -->
+  <section class="wrap flex flex-wrap items-end justify-between gap-4 pb-3 pt-8 md:pb-6 md:pt-14">
+    <div class="flex flex-col gap-1.5">
+      <span class="kicker">{c.kicker}</span>
+      <h1 class="display text-[2.375rem] leading-snug md:text-[3.5rem]">{c.title}</h1>
+    </div>
+    <p class="muted m-0 max-w-[28em] text-[0.9375rem] md:text-[1.0625rem]">{c.sub}</p>
+  </section>
+
+  <!-- CONTACT CELLS -->
+  <section class="wrap py-3 md:py-5">
+    <div class="blueprint">
+      <Corners />
+      <div class="cells grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+        {c.cells.map((cell, i) => {
+          const Tag = cellHrefs[i] ? 'a' : 'div';
+          return (
+            <Tag href={cellHrefs[i]} class="flex flex-col px-[1.125rem] py-4 hover:bg-neutral-100 md:px-[1.375rem] md:py-6">
+              <span class="kicker !text-xs md:!text-[0.8125rem]">{cell.kicker}</span>
+              <span class="display text-[1.625rem] leading-snug md:text-[1.75rem]">{cell.value}</span>
+              <span class="muted text-sm md:text-[0.9375rem]">{cell.note}</span>
+            </Tag>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <!-- FORM + MAP -->
+  <section id="quote" class="wrap flex scroll-mt-4 flex-wrap items-start gap-8 pb-12 pt-6 md:gap-10 md:pb-16 md:pt-8">
+    <form id="quote-form" class="blueprint flex min-w-0 flex-[3_1_32rem] flex-col gap-4 px-[1.125rem] py-[1.375rem] md:gap-5 md:p-8" action="/api/contact" method="post" novalidate>
+      <Corners />
+      <div class="flex flex-col">
+        <span class="kicker !text-[0.8125rem] md:!text-[0.9375rem]">{f.kicker}</span>
+        <h2 class="display text-[1.75rem] leading-snug md:text-4xl">{f.title}</h2>
+      </div>
+      <div class="flex flex-wrap gap-4">
+        <div class="field min-w-0 flex-[1_1_14rem]"><label for="f-name">{f.name}</label><input id="f-name" name="name" class="input" type="text" autocomplete="name" required /></div>
+        <div class="field min-w-0 flex-[1_1_14rem]"><label for="f-contact">{f.contact}</label><input id="f-contact" name="contact" class="input" type="text" autocomplete="tel" required /></div>
+      </div>
+      <div class="field">
+        <label id="f-type-label">{f.type}</label>
+        <div role="group" aria-labelledby="f-type-label" class="flex flex-wrap gap-2" id="type-chips">
+          {types.map(([id, label], i) => (
+            <button type="button" class="chip" data-type={id} aria-pressed={i === 0 ? 'true' : 'false'}>{label}</button>
+          ))}
+        </div>
+        <input type="hidden" name="type" id="f-type" value={types[0]![0]} />
+      </div>
+      <div class="flex flex-wrap gap-4">
+        <div class="field min-w-0 flex-[1_1_14rem]"><label for="f-qty">{f.qty}</label><input id="f-qty" name="qty" class="input" type="text" inputmode="numeric" placeholder={f.qtyPh} /></div>
+        <div class="field min-w-0 flex-[1_1_14rem]"><label for="f-size">{f.size}</label><input id="f-size" name="size" class="input" type="text" /></div>
+      </div>
+      <div class="field"><label for="f-note">{f.note}</label><textarea id="f-note" name="note" class="input" placeholder={f.notePh}></textarea></div>
+      <div class="field"><label for="f-file">{f.file}</label><input id="f-file" name="file" class="input" type="url" placeholder={f.filePh} /></div>
+      <input type="hidden" name="product" id="f-product" value="" />
+      <input type="hidden" name="lang" value={lang} />
+      <!-- honeypot: real people never see or fill this -->
+      <input type="text" name="website" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
+      {turnstileKey
+        ? <div class="cf-turnstile" data-sitekey={turnstileKey}></div>
+        : <div class="ph min-h-16">[Cloudflare Turnstile]</div>}
+      <div class="flex flex-wrap items-center gap-4">
+        <button type="submit" class="btn btn-primary blueprint max-md:w-full" id="submit" data-sending={f.sending} data-label={f.submit}>{f.submit}<Corners /></button>
+        <span class="muted text-sm">{f.orLine}</span>
+      </div>
+      <p id="form-status" role="status" aria-live="polite" class="m-0 min-h-6 text-[0.9375rem]" data-ok={f.ok} data-fail={f.fail}></p>
+    </form>
+
+    <aside class="flex min-w-0 flex-[2_1_20rem] flex-col gap-6">
+      <div class="blueprint p-2 md:p-3">
+        <Corners />
+        <div class="ph h-56 md:h-[18.75rem]"><span>{c.map}</span></div>
+        <div class="flex flex-col px-1 pb-1 pt-3">
+          <span class="font-semibold">{c.mapTitle}</span>
+          <span class="muted text-sm md:text-[0.9375rem]">{c.mapNote}</span>
+        </div>
+      </div>
+      <div class="blueprint p-[1.125rem] md:p-6">
+        <Corners />
+        <h3 class="display text-[1.3125rem] leading-normal md:text-2xl">{c.howTitle}</h3>
+        <ol class="muted m-0 mt-1.5 list-decimal pl-[1.375rem] text-[0.9375rem]">
+          {c.how.map((step) => <li>{step}</li>)}
+        </ol>
+      </div>
+    </aside>
+  </section>
+
+  {turnstileKey && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}
+</Base>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('#quote-form')!;
+  const status = document.querySelector<HTMLElement>('#form-status')!;
+  const submit = document.querySelector<HTMLButtonElement>('#submit')!;
+  const typeInput = document.querySelector<HTMLInputElement>('#f-type')!;
+  const chips = document.querySelectorAll<HTMLButtonElement>('[data-type]');
+
+  chips.forEach((chip) =>
+    chip.addEventListener('click', () => {
+      typeInput.value = chip.dataset.type!;
+      chips.forEach((c) => c.setAttribute('aria-pressed', String(c === chip)));
+    }),
+  );
+
+  // /contact/?product=tuck-box#quote → remember which product the visitor came from
+  const product = new URLSearchParams(location.search).get('product');
+  if (product) document.querySelector<HTMLInputElement>('#f-product')!.value = product;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!form.reportValidity()) return;
+    submit.disabled = true;
+    submit.firstChild!.textContent = submit.dataset.sending ?? '';
+    status.textContent = '';
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(Object.fromEntries(new FormData(form))),
+      });
+      if (!res.ok) throw new Error(String(res.status));
+      status.textContent = status.dataset.ok ?? '';
+      form.reset();
+      chips.forEach((c, i) => c.setAttribute('aria-pressed', String(i === 0)));
+    } catch {
+      status.textContent = status.dataset.fail ?? '';
+    } finally {
+      submit.disabled = false;
+      submit.firstChild!.textContent = submit.dataset.label ?? '';
+    }
+  });
+</script>
