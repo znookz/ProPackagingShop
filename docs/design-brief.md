@@ -15,15 +15,16 @@ Names are suggestions only. Domain, DBD business-name and trademark availability
 Tagline options: "Packaging that gets noticed." / "แพ็กเกจที่ใช่ พิมพ์ให้โดน" / "From dieline to doorstep."
 
 ## 2. Visual direction
-- **Mood:** modern craft — clean layouts, big product photography, visible paper/texture details. Confident, not corporate.
-- **Palette (starting point):**
-  - Kraft `#C8A27A` — warm cardboard accent
-  - Ink `#14161A` — near-black text / dark sections
-  - Paper `#FAF7F2` — page background
-  - Signal `#FF5A36` — CTA / highlights (print "spot colour" feel)
-  - Optional CMYK strip (cyan/magenta/yellow/black) as a small decorative motif to say "we are a print house".
-- **Type:** Headings — a geometric/grotesque display face with a Thai companion (e.g. *Sora* or *Space Grotesk* + *Noto Sans Thai* / *IBM Plex Sans Thai*). Body — *Noto Sans Thai* / *Inter*. Thai line-height ≥ 1.6.
-- **Motifs:** dieline (dashed fold lines) as dividers, registration marks / crop marks in corners, subtle paper grain.
+- **Mood (updated): "blueprint"** — cool grey ground, steel-blue accent, square hairline frames, registration marks at corners, dashed fold lines. Taken from the owner's "Industry" reference artifact. Technical, calm, precise.
+- **Palette:**
+  - Ground `#f2f2f3`, surface `#e9e9ea`
+  - Ink `#1d1f20`; hairline divider = ink at 16% opacity (`color-mix(in srgb, #1d1f20 16%, transparent)`)
+  - Accent `#5980a6` (decorative: fold lines, marks); accent-700 `#416180` for text and solid buttons (AA contrast); accent-800 `#2c455d`
+  - Neutral ramp `#f5f5f8 … #2b2b2d`; accent tint for placeholders `rgba(89,128,166,.12)` with dashed accent border
+- **Shape language:** radius 0 everywhere, 1px hairline borders, `.blueprint` frames with 11px "+" registration marks at the 4 corners (primary buttons and feature cards), 1px-gap cell grids on a divider background.
+- **Type:** headings *Barlow Condensed* 600/700 (Latin) with *Noto Sans Thai* 700 for Thai; body *Barlow* + *Noto Sans Thai*. Thai line-height ≥ 1.6, letter-spacing 0 on Thai. Kickers are numbered English labels (`02 / Service`), uppercase, letter-spaced.
+- **Motifs:** dieline (solid cut line + dashed accent fold line), registration marks, numbered sections, dashed-border image placeholders.
+- Implementation reference: `foldwork.css` in the Claude Design canvas holds the tokens and component classes (`.blueprint`, `.btn`, `.btn-primary`, `.tag`, `.chip`, `.seg`, `.card`, `.ph`, `.specs`, `.cells`).
 - **Motion:** light — hover lift on cards, scroll fade-in, a box "unfolding" hero animation (respect `prefers-reduced-motion`).
 
 ## 3. Sitemap

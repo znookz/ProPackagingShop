@@ -42,7 +42,8 @@ public/             favicon, robots.txt, _headers, _redirects
 
 ## Conventions
 - Thai text: set `lang="th"` / `lang="en"` on `<html>`; use `line-height` ≥ 1.6 for Thai (tone marks clip at tight values); never use `letter-spacing` on Thai.
-- Fonts: **Noto Sans Thai** or **IBM Plex Sans Thai** (body), a display face for headings; self-host, `font-display: swap`, subset to Thai + Latin.
+- Visual language: "blueprint" — see `docs/design-brief.md` (grey ground `#f2f2f3`, accent `#5980a6` / text-accent `#416180`, radius 0, 1px hairline borders, corner registration marks).
+- Fonts: **Barlow Condensed** (headings, Latin) + **Barlow** (body) with **Noto Sans Thai** as the Thai face; self-host, `font-display: swap`, subset to Thai + Latin.
 - Language switch keeps the user on the equivalent page (`/product` ↔ `/en/product`), stores choice in `localStorage`, never auto-redirects crawlers.
 - Every page: unique `<title>`, meta description, `hreflang` alternates, OpenGraph image, `LocalBusiness` JSON-LD on Contact.
 - Accessibility: AA contrast, visible focus, 44×44px touch targets, `alt` text in both languages, `prefers-reduced-motion` respected.
