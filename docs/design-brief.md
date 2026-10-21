@@ -88,6 +88,14 @@ Google Map (lazy loaded)
 FAQ / how to send artwork
 ```
 
+## 4b. 3D interaction (signature feature)
+- **Product cards:** a small "360°" badge on items that have a 3D model. Tap → full-screen sheet (phone) / large modal (desktop).
+- **Viewer:** the box on a soft neutral stage with contact shadow; drag to rotate, pinch/scroll to zoom, auto-rotate slowly until first touch; buttons: ⟲ reset, open/closed lid (where the model supports it), "View in your space" (AR, phones), close.
+- **Info panel beside/below viewer:** name, size, material, finishes, MOQ, "Ask for quote" CTA (pre-fills the contact form with the product).
+- **Hero:** a CSS-3D box that unfolds from flat dieline to finished box on scroll or load.
+- **Loading state:** poster image first (instant), progress ring while the model downloads, graceful fallback to image gallery if WebGL is unavailable.
+- Design the viewer for both phone portrait (viewer on top, info sheet below) and desktop (viewer left, info right).
+
 ## 5. Responsive rules
 - Breakpoints: 360 base · 640 · 768 · 1024 · 1280. Container max-width 1200px, side padding 16px (phone) / 24px+ (desktop).
 - Phone portrait: single column, sticky bottom action bar (Call · LINE · Quote), hamburger menu as full-screen sheet, ≥ 44px tap targets.
@@ -102,5 +110,5 @@ FAQ / how to send artwork
 ## 7. What to ask Claude Design for
 1. Logo/wordmark exploration for 2–3 of the names above.
 2. Home page, mobile + desktop, in TH and EN.
-3. Component sheet: header, cards, buttons, timeline, filter chips, forms, footer, sticky mobile bar.
+3. Component sheet: header, cards, buttons, timeline, filter chips, forms, footer, sticky mobile bar, **3D viewer sheet/modal**.
 4. Tokens export (colors, type scale, spacing, radius) to feed Tailwind `@theme`.

@@ -4,7 +4,7 @@ You are acting as a senior front-end / web expert on this repo. Keep the site fa
 
 ## Project
 Marketing website for a packaging printing house (โรงพิมพ์แพ็กเกจจิ้ง): boxes, tags/labels (ป้าย), calendars (ปฏิทิน) and related print work.
-Working brand name: **Foldwork** (placeholder — see `docs/design-brief.md` for alternatives; confirm name, domain and trademark before launch).
+Brand name: **Foldwork** (chosen by the owner). Still confirm domain and trademark availability before launch.
 
 ## Hard constraints
 - **No database, no backend of our own.** All content lives in the repo (Markdown / JSON / TS data files).
@@ -19,6 +19,11 @@ Working brand name: **Foldwork** (placeholder — see `docs/design-brief.md` for
 - Content: Astro Content Collections (`src/content/products/*.md`, `services/*.md`) with `th` and `en` fields side by side.
 - UI strings: `src/i18n/th.json`, `src/i18n/en.json` + a tiny `t(lang, key)` helper.
 - Images: Astro `<Image>` → AVIF/WebP, `srcset`, explicit width/height (no layout shift). Source images in `src/assets/`.
+- **3D product viewer:** tap a product → opens a viewer where the box rotates 360° (drag/pinch/auto-rotate).
+  - Phase 1: Google `<model-viewer>` web component loading `.glb` files from `public/models/`. Script and model load **only when the user opens the viewer** (never on page load). Gives orbit controls, a poster image, and AR "view in your space" on phones for free.
+  - Hero/decorative: pure CSS 3D transforms (6-face box that unfolds) — no library.
+  - Phase 2 (optional): Three.js parametric box (width × length × height) with the customer's artwork as a texture, for a "preview your design" configurator.
+  - Rules: each `.glb` < 2MB (Draco/Meshopt compressed, textures ≤ 1024px WebP/KTX2); always provide a static poster image and a no-WebGL fallback; keyboard-operable controls and `alt`; honour `prefers-reduced-motion` (no auto-rotate); keep the model files out of the critical path so Lighthouse mobile stays green.
 - Contact: click-to-call, LINE OA link, email, Google Maps embed (lazy). Optional form → Cloudflare Pages Function + Turnstile (no DB; forwards to email).
 
 ## Planned structure
@@ -32,6 +37,7 @@ src/
   styles/           global.css (tokens, base, utilities)
   assets/           images
 public/             favicon, robots.txt, _headers, _redirects
+  models/           product .glb files + poster images
 ```
 
 ## Conventions
